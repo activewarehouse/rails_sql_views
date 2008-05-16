@@ -1,0 +1,51 @@
+== Rails SQL Views
+
+Library which adds SQL Views to Rails. Adds create_view and drop_view to the ActiveRecord::ConnectionAdapters::AbstractAdapter (which makes them available to migrations) and adds support for dumping views in the ActiveRecord::SchemaDumper.
+
+== Installation
+
+To install:
+
+  gem install rails_sql_views
+ 
+Then add the following to your Rails config/environment.rb:
+
+  require_gem 'rails_sql_views'
+  require 'rails_sql_views'
+
+== Usage
+
+You can then use create_view and drop_view in your migrations. For example:
+
+  class CreatePersonView < ActiveRecord::Migration
+    def self.up
+      create_view :v_people, "select * from people" do |t|
+        t.column :id
+        t.column :name
+        t.column :social_security
+      end
+    end
+
+    def self.down
+      drop_view :v_people
+    end
+  end
+  
+This extension also adds support for views in the ActiveRecord::SchemaDumper class.
+
+The following drivers are supported:
+
+ MySQL
+ PostgreSQL (Native and Pure Ruby)
+ Oracle
+ SQL Server
+
+== Known Issues
+
+* Drivers not mentioned above are not supported.
+
+If you find any issues please send an email to anthonyeden@gmail.com .
+
+== Contributing
+
+If you would like to implement view support for other adapters then please drop me an email. Better yet, write up the adapter modifications and send them to me. :-)

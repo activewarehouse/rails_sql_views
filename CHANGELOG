@@ -1,0 +1,18 @@
+0.1.0 - Released Dec 27, 2006
+ * Initial release
+
+0.5.0 - Released Dec 29, 2006
+ * Added support for PostgreSQL (Michael Schuerig)
+ * Fixed the schema dumper
+ 
+0.5.1 - Released Jan 10, 2007
+ * Patch by Clifford T. Matthews to use String.dump to dump out the view select statement
+ 
+0.6.0 - Released May 9, 2007
+ * Added support for SQL Server (Seth Ladd)-
+ * Added support for using views to map non-friendly database field names to AR-friendly names (Nathan Vack)
+ * Added support for Oracle (Alistair Davidson)
+
+0.6.1 - Released June 6, 2007
+ * Added test for union support
+ * Updated tests to include new table to support union test
