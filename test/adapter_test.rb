@@ -8,7 +8,11 @@ class AdapterTest < Test::Unit::TestCase
   end
   def test_tables
     create_view
-    assert_equal ["people", "people2", "places"], ActiveRecord::Base.connection.tables
+    assert_equal ["people", "people2", "places","v_person"], ActiveRecord::Base.connection.tables
+  end
+  def test_nonview_tables
+    create_view
+    assert_equal ["people", "people2", "places"], ActiveRecord::Base.connection.nonview_tables
   end
   def test_views
     create_view

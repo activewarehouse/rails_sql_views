@@ -6,18 +6,31 @@ module ActiveRecord
         true
       end
       
-      def tables(name = nil) #:nodoc:
+      def nonview_tables(name = nil) #:nodoc:
         tables = []
-        execute("SHOW TABLE STATUS", name).each { |row| tables << row[0] if row[17] != 'VIEW' }
+        execute("SHOW FULL TABLES WHERE TABLE_TYPE='BASE TABLE'").each{|row| tables << row[0]}
         tables
       end
       
       def views(name = nil) #:nodoc:
         views = []
-        execute("SHOW TABLE STATUS", name).each { |row| views << row[0] if row[17] == 'VIEW' }
+        execute("SHOW FULL TABLES WHERE TABLE_TYPE='VIEW'").each{|row| views << row[0]}
         views
       end
       
+      def structure_dump
+        structure = ""
+        nonview_tables.each do |table|
+          structure += select_one("SHOW CREATE TABLE #{quote_table_name(table)}")["Create Table"] + ";\n\n"
+        end
+
+        views.each do |view|
+          structure += select_one("SHOW CREATE VIEW #{quote_table_name(view)}")["Create View"] + ";\n\n"
+        end
+
+        return structure
+      end
+
       # Get the view select statement for the specified table.
       def view_select_statement(view, name=nil)
         begin

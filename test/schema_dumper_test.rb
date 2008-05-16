@@ -1,6 +1,7 @@
 require "#{File.dirname(__FILE__)}/test_helper"
 require 'active_record/schema_dumper'
-
+require 'ruby-debug'
+Debugger.start
 class SchemaDumperTest < Test::Unit::TestCase
   def test_view
     create_person_view
@@ -74,7 +75,7 @@ class SchemaDumperTest < Test::Unit::TestCase
         ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, file)
       end
     end
-    
+
     assert_nothing_raised do
       load(schema_file)
     end
