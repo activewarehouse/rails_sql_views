@@ -19,7 +19,7 @@ module RailsSqlViews
 
           create_sql = "CREATE VIEW "
           create_sql << "#{name} "
-          if supports_view_columns_definition?
+          if supports_view_columns_definition? && !view_definition.to_sql.blank?
             create_sql << "("
             create_sql << view_definition.to_sql
             create_sql << ") " 
