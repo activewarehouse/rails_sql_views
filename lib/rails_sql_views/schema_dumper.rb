@@ -34,7 +34,7 @@ module ActiveRecord
     # Add views to the stream
     def views(stream)
       @connection.views.sort.each do |v|
-        next if ["schema_info", ignore_views].flatten.any? do |ignored|
+        next if [ActiveRecord::Migrator.schema_migrations_table_name, ignore_views].flatten.any? do |ignored|
           case ignored
           when String: v == ignored
           when Symbol: v == ignored.to_s
@@ -79,7 +79,7 @@ module ActiveRecord
 
     def tables(stream)
       @connection.nonview_tables.sort.each do |tbl|
-        next if ["schema_info", ignore_tables].flatten.any? do |ignored|
+        next if [ActiveRecord::Migrator.schema_migrations_table_name, ignore_tables].flatten.any? do |ignored|
           case ignored
           when String: tbl == ignored
           when Regexp: tbl =~ ignored
