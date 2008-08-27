@@ -6,6 +6,10 @@ module ActiveRecord
         return false
       end
       
+      def supports_view_columns_definition?
+        true
+      end
+      
       # Get a list of all views for the current database
       def views(name = nil)
         raise NotImplementedError, "views is an abstract method"
