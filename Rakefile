@@ -64,8 +64,8 @@ spec = Gem::Specification.new do |s|
     Library which adds SQL Views to Rails.
   EOF
 
-  s.add_dependency('activerecord', '>= 1.14.4')
-  s.add_dependency('rake', '>= 0.7.1')
+  s.add_dependency('activerecord', '>= 2.1.0')
+  s.add_dependency('rake', '>= 0.8.3')
 
   s.rdoc_options << '--exclude' << '.'
   s.has_rdoc = false

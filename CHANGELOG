@@ -16,3 +16,6 @@
 0.6.1 - Released June 6, 2007
  * Added test for union support
  * Updated tests to include new table to support union test
+
+0.7.0
+ * Updated dependency versions to get on ActiveRecord 2.x
