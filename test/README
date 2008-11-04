@@ -25,6 +25,7 @@ If you would like to implement an adapter, it should go in lib/rails_sql_views/c
 of the other adapters currently implemented. Every adapter must implement the following methods:
 
   supports_views?
+  nonview_tables(name = nil)
   views(name = nil)
   view_select_statement(view, name=nil)
   

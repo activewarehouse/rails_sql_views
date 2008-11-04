@@ -6,6 +6,17 @@ module ActiveRecord
         true
       end
       
+      def nonview_tables(name = nil)
+        q = <<-SQL
+        SELECT table_name, table_type
+          FROM information_schema.tables
+         WHERE table_schema IN (#{schemas})
+           AND table_type = 'BASE_TABLE'
+        SQL
+        
+        query(q, name).map { |row| row[0] }
+      end
+      
       def views(name = nil) #:nodoc:
         q = <<-SQL
         SELECT table_name, table_type

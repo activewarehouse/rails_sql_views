@@ -6,7 +6,7 @@ module ActiveRecord
        true
      end
 
-     def tables(name = nil) #:nodoc:
+     def nonview_tables(name = nil) #:nodoc:
        tables = []
        execute("SELECT TABLE_NAME FROM USER_TABLES", name).each { |row| tables << row[0]  }
        tables
