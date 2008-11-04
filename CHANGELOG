@@ -18,4 +18,4 @@
  * Updated tests to include new table to support union test
 
 0.7.0
- * Updated dependency versions to get on ActiveRecord 2.x
+ * Updated dependency versions to get on ActiveRecord 2.x. May not be compatible with Rails versions less than 2.x.

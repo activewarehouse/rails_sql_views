@@ -24,18 +24,7 @@
 $:.unshift(File.dirname(__FILE__))
   
 require 'rubygems'
-unless Kernel.respond_to?(:gem)
-  Kernel.send :alias_method, :gem, :require_gem
-end
-  
-unless defined?(ActiveRecord)
-  begin
-    $:.unshift(File.dirname(__FILE__) + "/../../activerecord/lib")
-    require 'active_record'
-  rescue LoadError
-    gem 'activerecord'
-  end
-end
+require 'active_record'
 
 require 'core_ext/module'
 

@@ -125,3 +125,20 @@ desc "Publish the API documentation"
 task :pdoc => [:rdoc] do 
   Rake::SshDirPublisher.new("aeden@rubyforge.org", "/var/www/gforge-projects/activewarehouse/rails_sql_views/rdoc", "rdoc").upload
 end
+
+desc "Install the gem from a local generated package"
+task :install => [:package] do
+  windows = RUBY_PLATFORM =~ /mswin/
+  sudo = windows ? '' : 'sudo'
+  gem = windows ? 'gem.bat' : 'gem'
+  `#{sudo} #{gem} install pkg/#{PKG_NAME}-#{PKG_VERSION}`
+end
+
+desc "Reinstall the gem from a local package copy"
+task :reinstall => [:package] do
+  windows = RUBY_PLATFORM =~ /mswin/
+  sudo = windows ? '' : 'sudo'
+  gem = windows ? 'gem.bat' : 'gem'
+  `#{sudo} #{gem} uninstall #{PKG_NAME} -x`
+  `#{sudo} #{gem} install pkg/#{PKG_NAME}-#{PKG_VERSION}`
+end
