@@ -13,8 +13,10 @@ module RailsSqlViews
       def create_view(name, select_query, options={})
         if supports_views?
           view_definition = ViewDefinition.new(self, select_query)
-
-          yield view_definition
+          
+          if block_given?
+            yield view_definition
+          end
 
           if options[:force]
             drop_view(name) rescue nil
