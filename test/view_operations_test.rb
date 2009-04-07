@@ -1,6 +1,6 @@
 require "#{File.dirname(__FILE__)}/test_helper"
 
-class ViewTest < Test::Unit::TestCase
+class ViewOperationsTest < Test::Unit::TestCase
   def test_create_view
     Person.create(:first_name => 'John', :last_name => 'Doe', :ssn => '123456789')
     assert_nothing_raised do

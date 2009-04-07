@@ -10,13 +10,13 @@ class AdapterTest < Test::Unit::TestCase
     create_view
     found = ActiveRecord::Base.connection.tables.sort
     found.delete(ActiveRecord::Migrator.schema_migrations_table_name)
-    assert_equal ["people", "people2", "places", "v_people"], found
+    assert_equal ["items", "items_people", "people", "people2", "places", "v_people"], found
   end
   def test_base_tables
     create_view
     found = ActiveRecord::Base.connection.base_tables.sort
     found.delete(ActiveRecord::Migrator.schema_migrations_table_name)
-    assert_equal ["people", "people2", "places"], found
+    assert_equal ["items", "items_people", "people", "people2", "places"], found
   end
   def test_views
     create_view
@@ -36,7 +36,7 @@ class AdapterTest < Test::Unit::TestCase
   end
   def test_mapped_columns
     create_mapping
-    assert_equal ["f_name", "l_name"], ActiveRecord::Base.connection.columns('v_people').collect { |c| c.name }
+    assert_equal ["f_name", "l_name", "address_id"], ActiveRecord::Base.connection.columns('v_people').collect { |c| c.name }
   end
   
   def test_view_select_statement

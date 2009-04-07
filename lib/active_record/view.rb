@@ -10,16 +10,15 @@ module ActiveRecord
     class << self
       def based_on(model)
         define_method("to_#{model.name.demodulize.underscore}") do
-          ### TODO reload?
           becomes(model)
         end
         
         model.reflect_on_all_associations.each do |assoc|
-          steal_association(model, assoc)
+          clone_association(model, assoc)
         end
       end
       
-      def steal_association(model, *associations)
+      def clone_association(model, *associations)
         associations.each do |association|
           r = case association
               when String, Symbol
@@ -31,9 +30,16 @@ module ActiveRecord
               end
           case r.macro
           when :belongs_to
-            ### ensure that the fk column exists
+            ### TODO handle polymorphic associations
+            if self.column_names.include?(r.primary_key_name.to_s)
+              options = r.options.merge(
+                :class_name => r.class_name,
+                :foreign_key => r.primary_key_name
+              )
+              belongs_to r.name, options
+            end
           when :has_many
-            ### TODO add options for :through assocs
+            ### TODO :through assocications
             options = r.options.merge(
               :class_name => r.class_name,
               :foreign_key => r.primary_key_name
