@@ -17,8 +17,7 @@ module RailsSqlViews
       end
       
       def to_sql
-        ### TODO quote
-        @columns * ', '
+        @columns.collect { |c| @base.quote_column_name(c) } * ', '
       end
       
     end

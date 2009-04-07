@@ -50,11 +50,9 @@ module RailsSqlViews
 
         view_sql = "CREATE VIEW #{new_name} "
         if supports_view_columns_definition?
-          ### TODO quote
-          view_sql << "(#{mapper.view_cols.join(', ')}) "
+          view_sql << "(#{mapper.view_cols.collect { |c| quote_column_name(c) }.join(', ')}) "
         end
-        ### TODO quote
-        view_sql << "AS SELECT #{mapper.select_cols.join(', ')} FROM #{old_name}"
+        view_sql << "AS SELECT #{mapper.select_cols.collect { |c| quote_column_name(c) }.join(', ')} FROM #{old_name}"
         execute view_sql
       end
 

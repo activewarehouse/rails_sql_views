@@ -30,10 +30,10 @@ ActiveRecord::Schema.define(:version => 0) do
     t.string "country", :limit => 2
   end
 
-  create_view "v_profile", "SELECT people.first_name, people.last_name, people.ssn FROM people UNION SELECT people2.first_name, people2.last_name, people2.ssn FROM people2;", :force => true do |v|
-    v.column :first_name
-    v.column :last_name
-    v.column :ssn
+  create_view "v_person", "select `people`.`first_name` AS `f_name`,`people`.`last_name` AS `l_name`,`people`.`ssn` AS `social_security` from `people`", :force => true do |v|
+    v.column :f_name
+    v.column :l_name
+    v.column :social_security
   end
 
 end
