@@ -81,7 +81,7 @@ module RailsSqlViews
     end
 
     def tables_with_views_excluded(stream)
-      @connection.nonview_tables.sort.each do |tbl|
+      @connection.base_tables.sort.each do |tbl|
         next if [ActiveRecord::Migrator.schema_migrations_table_name, ignore_tables].flatten.any? do |ignored|
           case ignored
           when String then tbl == ignored

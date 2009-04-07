@@ -1,3 +1,2 @@
 
 - Use pre-existing Adapter#supports_views? where possible
-- Rename #nonview_tables to #base_tables

@@ -12,9 +12,9 @@ class AdapterTest < Test::Unit::TestCase
     found.delete(ActiveRecord::Migrator.schema_migrations_table_name)
     assert_equal ["people", "people2", "places", "v_person"], found
   end
-  def test_nonview_tables
+  def test_base_tables
     create_view
-    found = ActiveRecord::Base.connection.nonview_tables.sort
+    found = ActiveRecord::Base.connection.base_tables.sort
     found.delete(ActiveRecord::Migrator.schema_migrations_table_name)
     assert_equal ["people", "people2", "places"], found
   end

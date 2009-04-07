@@ -6,11 +6,12 @@ module RailsSqlViews
        true
      end
 
-     def nonview_tables(name = nil) #:nodoc:
+     def base_tables(name = nil) #:nodoc:
        tables = []
        execute("SELECT TABLE_NAME FROM USER_TABLES", name).each { |row| tables << row[0]  }
        tables
      end
+     alias nonview_tables base_tables
 
      def views(name = nil) #:nodoc:
        views = []

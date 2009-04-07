@@ -20,7 +20,7 @@ module RailsSqlViews
         query(q, name).map { |row| row[0] }
       end
       
-      def nonview_tables(name = nil)
+      def base_tables(name = nil)
         q = <<-SQL
         SELECT table_name, table_type
           FROM information_schema.tables
@@ -30,6 +30,7 @@ module RailsSqlViews
         
         query(q, name).map { |row| row[0] }
       end
+      alias nonview_tables base_tables
       
       def views(name = nil) #:nodoc:
         q = <<-SQL

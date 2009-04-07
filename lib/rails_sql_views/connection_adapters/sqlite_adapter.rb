@@ -17,7 +17,7 @@ module RailsSqlViews
         end
       end
 
-      def nonview_tables(name = nil)
+      def base_tables(name = nil)
         sql = <<-SQL
           SELECT name
           FROM sqlite_master
@@ -28,6 +28,7 @@ module RailsSqlViews
           row[0]
         end        
       end
+      alias nonview_tables base_tables
       
       def views(name = nil)
         sql = <<-SQL

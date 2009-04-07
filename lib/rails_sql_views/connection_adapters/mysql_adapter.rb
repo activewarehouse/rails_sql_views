@@ -12,11 +12,12 @@ module RailsSqlViews
         true
       end
       
-      def nonview_tables(name = nil) #:nodoc:
+      def base_tables(name = nil) #:nodoc:
         tables = []
         execute("SHOW FULL TABLES WHERE TABLE_TYPE='BASE TABLE'").each{|row| tables << row[0]}
         tables
       end
+      alias nonview_tables base_tables
       
       def views(name = nil) #:nodoc:
         views = []
@@ -26,7 +27,7 @@ module RailsSqlViews
       
       def structure_dump
         structure = ""
-        nonview_tables.each do |table|
+        base_tables.each do |table|
           structure += select_one("SHOW CREATE TABLE #{quote_table_name(table)}")["Create Table"] + ";\n\n"
         end
 
