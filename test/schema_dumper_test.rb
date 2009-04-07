@@ -4,18 +4,18 @@ require 'ruby-debug'
 Debugger.start
 class SchemaDumperTest < Test::Unit::TestCase
   def setup
-    ActiveRecord::Base.connection.execute('drop view if exists v_person')
+    ActiveRecord::Base.connection.execute('drop view if exists v_people')
     ActiveRecord::Base.connection.execute('drop view if exists v_profile')
   end
   def test_view
-    create_person_view
+    create_people_view
     stream = StringIO.new
     dumper = ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, stream)
     stream.rewind
     assert_equal File.open(File.dirname(__FILE__) + "/schema.#{$connection}.expected.rb", 'r').readlines, stream.readlines
   end
   def test_dump_and_load
-    create_person_view
+    create_people_view
     assert_dump_and_load_succeed
   end
   def test_union
@@ -32,19 +32,19 @@ class SchemaDumperTest < Test::Unit::TestCase
     assert_dump_and_load_succeed
   end
   def test_symbol_ignore
-    ActiveRecord::SchemaDumper.ignore_views << :v_person
-    create_person_view
+    ActiveRecord::SchemaDumper.ignore_views << :v_people
+    create_people_view
     assert_dump_and_load_succeed
     ActiveRecord::SchemaDumper.ignore_views.pop
   end
   def test_regex_ignore
-    ActiveRecord::SchemaDumper.ignore_views << Regexp.new(/v_person/)
-    create_person_view
+    ActiveRecord::SchemaDumper.ignore_views << Regexp.new(/v_people/)
+    create_people_view
     assert_dump_and_load_succeed
     ActiveRecord::SchemaDumper.ignore_views.pop
   end
   def test_non_allowed_object_raises_error
-    create_person_view
+    create_people_view
     ActiveRecord::SchemaDumper.ignore_views << 0
     begin
       schema_file = File.dirname(__FILE__) + "/schema.#{$connection}.out.rb"

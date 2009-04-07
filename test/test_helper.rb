@@ -16,8 +16,8 @@ require 'models/person2'
 require 'models/v_person'
 
 class Test::Unit::TestCase
-  def create_person_view
-    ActiveRecord::Base.connection.create_view(:v_person,
+  def create_people_view
+    ActiveRecord::Base.connection.create_view(:v_people,
         'select first_name, last_name, ssn from people', :force => true) do |v|
       v.column :f_name
       v.column :l_name

@@ -1,3 +1,5 @@
-class VPerson < ActiveRecord::Base
-  set_table_name 'v_person'
+require 'active_record/view'
+
+class VPerson < ActiveRecord::View
+
 end

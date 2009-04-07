@@ -4,7 +4,7 @@ class ViewTest < Test::Unit::TestCase
   def test_create_view
     Person.create(:first_name => 'John', :last_name => 'Doe', :ssn => '123456789')
     assert_nothing_raised do
-      ActiveRecord::Base.connection.create_view(:v_person,
+      ActiveRecord::Base.connection.create_view(:v_people,
           'select first_name, last_name, ssn from people', :force => true) do |v|
         v.column :f_name
         v.column :l_name

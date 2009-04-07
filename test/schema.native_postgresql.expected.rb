@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(:version => 0) do
     t.string "country", :limit => 2
   end
 
-  create_view "v_person", "SELECT people.first_name AS f_name, people.last_name AS l_name, people.ssn AS social_security FROM people;", :force => true do |v|
+  create_view "v_people", "SELECT people.first_name AS f_name, people.last_name AS l_name, people.ssn AS social_security FROM people;", :force => true do |v|
     v.column :f_name
     v.column :l_name
     v.column :social_security
