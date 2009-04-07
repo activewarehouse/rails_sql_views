@@ -1,6 +1,6 @@
-module ActiveRecord
+module RailsSqlViews
  module ConnectionAdapters
-   class OracleAdapter
+   module OracleAdapter
      # Returns true as this adapter supports views.
      def supports_views?
        true

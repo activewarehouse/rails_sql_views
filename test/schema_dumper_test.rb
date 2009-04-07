@@ -17,7 +17,10 @@ class SchemaDumperTest < Test::Unit::TestCase
   def test_union
     Person.create(:first_name => 'Joe', :last_name => 'User', :ssn => '123456789')
     Person2.create(:first_name => 'Jane', :last_name => 'Doe', :ssn => '222334444')
-    ActiveRecord::Base.connection.create_view(:v_profile, "(select * from people) UNION (select * from people2)", :force => true) do |v|
+    ActiveRecord::Base.connection.create_view(:v_profile,
+        "(select first_name, last_name, ssn from people) " + 
+        " UNION " + 
+        "(select first_name, last_name, ssn from people2)", :force => true) do |v|
       v.column :first_name
       v.column :last_name
       v.column :ssn

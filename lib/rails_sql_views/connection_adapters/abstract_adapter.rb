@@ -1,6 +1,6 @@
-module ActiveRecord
+module RailsSqlViews
   module ConnectionAdapters
-    class AbstractAdapter
+    module AbstractAdapter
       # Subclasses should override and return true if they support views.
       def supports_views?
         return false

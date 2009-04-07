@@ -1,6 +1,6 @@
-module ActiveRecord
+module RailsSqlViews
  module ConnectionAdapters
-   class OciAdapter
+   module OciAdapter
      # Returns true as this adapter supports views.
      def supports_views?
        true

@@ -1,6 +1,6 @@
-module ActiveRecord
+module RailsSqlViews
   module ConnectionAdapters
-    class SQLiteAdapter
+    module SQLiteAdapter
       def supports_views?
         true
       end

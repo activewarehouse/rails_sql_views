@@ -1,9 +1,23 @@
-module ActiveRecord
+module RailsSqlViews
   module ConnectionAdapters
-    class PostgreSQLAdapter
+    module PostgreSQLAdapter
+      def self.included(base)
+        base.alias_method_chain :tables, :views_included
+      end
       # Returns true as this adapter supports views.
       def supports_views?
         true
+      end
+      
+      def tables_with_views_included(name = nil)
+        q = <<-SQL
+        SELECT table_name, table_type
+          FROM information_schema.tables
+         WHERE table_schema IN (#{schemas})
+           AND table_type IN ('BASE TABLE', 'VIEW')
+        SQL
+
+        query(q, name).map { |row| row[0] }
       end
       
       def nonview_tables(name = nil)
@@ -11,7 +25,7 @@ module ActiveRecord
         SELECT table_name, table_type
           FROM information_schema.tables
          WHERE table_schema IN (#{schemas})
-           AND table_type = 'BASE_TABLE'
+           AND table_type = 'BASE TABLE'
         SQL
         
         query(q, name).map { |row| row[0] }

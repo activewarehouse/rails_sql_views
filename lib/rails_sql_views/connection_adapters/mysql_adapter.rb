@@ -1,6 +1,12 @@
-module ActiveRecord
+module RailsSqlViews
   module ConnectionAdapters
-    class MysqlAdapter
+    module MysqlAdapter
+      def self.included(base)
+        if base.private_method_defined?(:supports_views?)
+          base.send(:public, :supports_views?)
+        end
+      end
+
       # Returns true as this adapter supports views.
       def supports_views?
         true

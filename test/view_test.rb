@@ -4,7 +4,8 @@ class ViewTest < Test::Unit::TestCase
   def test_create_view
     Person.create(:first_name => 'John', :last_name => 'Doe', :ssn => '123456789')
     assert_nothing_raised do
-      ActiveRecord::Base.connection.create_view(:v_person, 'select * from people', :force => true) do |v|
+      ActiveRecord::Base.connection.create_view(:v_person,
+          'select first_name, last_name, ssn from people', :force => true) do |v|
         v.column :f_name
         v.column :l_name
         v.column :social_security
@@ -16,7 +17,8 @@ class ViewTest < Test::Unit::TestCase
   end
   def test_drop_view
     assert_nothing_raised do
-      ActiveRecord::Base.connection.create_view(:v_place, 'select * from places', :force => true) do |v|
+      ActiveRecord::Base.connection.create_view(:v_place,
+          'select address, city, cstate, country from places', :force => true) do |v|
         v.column :v_address
         v.column :v_city
         v.column :v_state

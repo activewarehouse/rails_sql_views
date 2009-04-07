@@ -8,11 +8,15 @@ class AdapterTest < Test::Unit::TestCase
   end
   def test_tables
     create_view
-    assert_equal ["people", "people2", "places","v_person"], ActiveRecord::Base.connection.tables
+    found = ActiveRecord::Base.connection.tables.sort
+    found.delete(ActiveRecord::Migrator.schema_migrations_table_name)
+    assert_equal ["people", "people2", "places", "v_person"], found
   end
   def test_nonview_tables
     create_view
-    assert_equal ["people", "people2", "places"], ActiveRecord::Base.connection.nonview_tables
+    found = ActiveRecord::Base.connection.nonview_tables.sort
+    found.delete(ActiveRecord::Migrator.schema_migrations_table_name)
+    assert_equal ["people", "people2", "places"], found
   end
   def test_views
     create_view
@@ -54,7 +58,8 @@ class AdapterTest < Test::Unit::TestCase
   
   private
   def create_view
-    ActiveRecord::Base.connection.create_view(:v_person, 'select * from people', :force => true) do |v|
+#    ActiveRecord::Base.connection.create_view(:v_person, 'select * from people', :force => true) do |v|
+    ActiveRecord::Base.connection.create_view(:v_person, 'select first_name, last_name, ssn from people', :force => true) do |v|
       v.column :f_name
       v.column :l_name
       v.column :social_security
@@ -63,6 +68,7 @@ class AdapterTest < Test::Unit::TestCase
   
   def create_mapping
     ActiveRecord::Base.connection.create_mapping_view(:people, :v_person, :force => true) do |v|
+      v.map_column :id, nil
       v.map_column :first_name, :f_name
       v.map_column :last_name, :l_name
       v.map_column :ssn, nil

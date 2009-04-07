@@ -1,0 +1,4 @@
+
+- Fix SchemaDumperTest#test_view for PostgreSQL
+- Don't rewrite ./test/schema.#{adapter}.out.rb all the time
+- Use pre-existing Adapter#supports_views? where possible

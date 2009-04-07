@@ -1,16 +1,20 @@
-module ActiveRecord
-  class SchemaDumper
-    
-    # A list of views which should not be dumped to the schema. 
-    # Acceptable values are strings as well as regexp.
-    # This setting is only used if ActiveRecord::Base.schema_format == :ruby
-    cattr_accessor :ignore_views 
-    @@ignore_views = []
+module RailsSqlViews
+  module SchemaDumper
+    def self.included(base)
+      base.alias_method_chain :trailer, :views
+      base.alias_method_chain :dump, :views
+      base.alias_method_chain :tables, :views_excluded
+      
+      # A list of views which should not be dumped to the schema. 
+      # Acceptable values are strings as well as regexp.
+      # This setting is only used if ActiveRecord::Base.schema_format == :ruby
+      base.cattr_accessor :ignore_views
+      base.ignore_views = []
+    end
     
     def trailer_with_views(stream)
       # do nothing...we'll call this later
     end
-    alias_method_chain :trailer, :views
     
     # Add views to the end of the dump stream
     def dump_with_views(stream)
@@ -29,7 +33,6 @@ module ActiveRecord
       trailer_without_views(stream)
       stream
     end
-    alias_method_chain :dump, :views
     
     # Add views to the stream
     def views(stream)
@@ -77,7 +80,7 @@ module ActiveRecord
       stream
     end
 
-    def tables(stream)
+    def tables_with_views_excluded(stream)
       @connection.nonview_tables.sort.each do |tbl|
         next if [ActiveRecord::Migrator.schema_migrations_table_name, ignore_tables].flatten.any? do |ignored|
           case ignored
