@@ -5,6 +5,7 @@ require 'rubygems'
 require 'test/unit'
 require 'pp'
 require 'flexmock/test_unit'
+require 'ruby-debug'
 
 require 'active_record'
 #$connection = (ENV['DB'] || 'native_mysql')

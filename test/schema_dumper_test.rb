@@ -1,7 +1,6 @@
 require "#{File.dirname(__FILE__)}/test_helper"
 require 'active_record/schema_dumper'
-require 'ruby-debug'
-Debugger.start
+
 class SchemaDumperTest < Test::Unit::TestCase
   def setup
     ActiveRecord::Base.connection.execute('drop view if exists v_people')

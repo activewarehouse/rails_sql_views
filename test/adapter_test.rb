@@ -41,9 +41,9 @@ class AdapterTest < Test::Unit::TestCase
   
   def test_view_select_statement
     case ActiveRecord::Base.connection.adapter_name
-    when "MySQL":
+    when "MySQL"
       assert_equal "select `people`.`first_name` AS `f_name`,`people`.`last_name` AS `l_name`,`people`.`ssn` AS `social_security` from `people`", ActiveRecord::Base.connection.view_select_statement('v_people')
-    when "PostgreSQL":
+    when "PostgreSQL"
       assert_equal "SELECT people.first_name AS f_name, people.last_name AS l_name, people.ssn AS social_security FROM people;", ActiveRecord::Base.connection.view_select_statement('v_people')
     end
   end
@@ -55,10 +55,15 @@ class AdapterTest < Test::Unit::TestCase
       end
     end
   end
+ 
+### TODO
+#  def test_only_base_table_triggers_are_dropped_for_disabled_ref_integrity
+#    ActiveRecord::Base.connection.disable_referential_integrity do
+#    end
+#  end
   
   private
   def create_view
-#    ActiveRecord::Base.connection.create_view(:v_people, 'select * from people', :force => true) do |v|
     ActiveRecord::Base.connection.create_view(:v_people, 'select first_name, last_name, ssn from people', :force => true) do |v|
       v.column :f_name
       v.column :l_name

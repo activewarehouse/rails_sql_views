@@ -1,6 +1,6 @@
 
 # A base class for database views.
-# It is primarily useful for views that are centered around a single table/model
+# It is primarily useful for views that are centered around a single table/model.
 module ActiveRecord # :nodoc:
   class View < Base
     self.abstract_class = true

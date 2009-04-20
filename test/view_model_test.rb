@@ -2,7 +2,6 @@ require "#{File.dirname(__FILE__)}/test_helper"
 
 require 'models/item'
 require 'models/place'
-require 'ruby-debug' ### REMOVE
 
 class ViewModelTest < Test::Unit::TestCase
   
