@@ -11,10 +11,20 @@
 
 ActiveRecord::Schema.define(:version => 0) do
 
+  create_table "items", :force => true do |t|
+    t.integer "person_id"
+  end
+
+  create_table "items_people", :id => false, :force => true do |t|
+    t.integer "person_id"
+    t.integer "item_id"
+  end
+
   create_table "people", :force => true do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "ssn",        :limit => 64
+    t.string  "first_name"
+    t.string  "last_name"
+    t.string  "ssn",        :limit => 64
+    t.integer "address_id"
   end
 
   create_table "people2", :force => true do |t|
@@ -30,10 +40,12 @@ ActiveRecord::Schema.define(:version => 0) do
     t.string "country", :limit => 2
   end
 
-  create_view "v_people", "select `people`.`first_name` AS `f_name`,`people`.`last_name` AS `l_name`,`people`.`ssn` AS `social_security` from `people`", :force => true do |v|
+  create_view "v_people", "select `people`.`id` AS `id`,`people`.`first_name` AS `f_name`,`people`.`last_name` AS `l_name`,`people`.`ssn` AS `social_security`,`people`.`address_id` AS `address_id` from `people`", :force => true do |v|
+    v.column :id
     v.column :f_name
     v.column :l_name
     v.column :social_security
+    v.column :address_id
   end
 
 end

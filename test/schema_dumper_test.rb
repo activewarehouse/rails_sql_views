@@ -6,6 +6,10 @@ class SchemaDumperTest < Test::Unit::TestCase
     ActiveRecord::Base.connection.execute('drop view if exists v_people')
     ActiveRecord::Base.connection.execute('drop view if exists v_profile')
   end
+  def teardown
+    ActiveRecord::Base.connection.execute('drop view if exists v_people')
+    ActiveRecord::Base.connection.execute('drop view if exists v_profile')
+  end
   def test_view
     create_people_view
     stream = StringIO.new
@@ -20,14 +24,19 @@ class SchemaDumperTest < Test::Unit::TestCase
   def test_union
     Person.create(:first_name => 'Joe', :last_name => 'User', :ssn => '123456789')
     Person2.create(:first_name => 'Jane', :last_name => 'Doe', :ssn => '222334444')
-    ActiveRecord::Base.connection.create_view(:v_profile,
-        "(select first_name, last_name, ssn from people) " + 
-        " UNION " + 
-        "(select first_name, last_name, ssn from people2)", :force => true) do |v|
+    
+    select_stmt = <<-HERE
+      select first_name, last_name, ssn from people
+      UNION
+      select first_name, last_name, ssn from people2
+    HERE
+    
+    ActiveRecord::Base.connection.create_view(:v_profile, select_stmt, :force => true) do |v|
       v.column :first_name
       v.column :last_name
       v.column :ssn
     end
+    
     assert_dump_and_load_succeed
   end
   def test_symbol_ignore
