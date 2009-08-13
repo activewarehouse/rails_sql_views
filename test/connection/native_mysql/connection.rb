@@ -15,6 +15,7 @@ ActiveRecord::Base.configurations = {
 }
 
 ActiveRecord::Base.establish_connection 'rails_sql_views_unittest'
+ActiveRecord::Migration.verbose = false
 
 puts "Resetting database"
 conn = ActiveRecord::Base.connection
