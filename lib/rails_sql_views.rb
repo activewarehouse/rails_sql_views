@@ -22,8 +22,7 @@
 #++
 
 $:.unshift(File.dirname(__FILE__))
-  
-require 'rubygems'
+
 require 'active_record'
 
 require 'core_ext/module'
