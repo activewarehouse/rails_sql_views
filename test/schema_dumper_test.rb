@@ -51,6 +51,12 @@ class SchemaDumperTest < Test::Unit::TestCase
     
     assert_dump_and_load_succeed
   end
+  def test_view_creation_order
+    ActiveRecord::SchemaDumper.view_creation_order << :v_people
+    create_people_view
+    assert_dump_and_load_succeed
+    ActiveRecord::SchemaDumper.view_creation_order.pop
+  end
   def test_symbol_ignore
     ActiveRecord::SchemaDumper.ignore_views << :v_people
     create_people_view

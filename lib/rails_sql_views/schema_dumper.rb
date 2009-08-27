@@ -10,6 +10,12 @@ module RailsSqlViews
       # This setting is only used if ActiveRecord::Base.schema_format == :ruby
       base.cattr_accessor :ignore_views
       base.ignore_views = []
+      # Optional: specify the order that in which views are created.
+      # This allows views to depend on and include fields from other views.
+      # It is not necessary to specify all the view names, just the ones that 
+      # need to be created first
+      base.cattr_accessor :view_creation_order
+      base.view_creation_order = []
     end
     
     def trailer_with_views(stream)
@@ -36,7 +42,15 @@ module RailsSqlViews
     
     # Add views to the stream
     def views(stream)
-      @connection.views.sort.each do |v|
+      if view_creation_order.empty?
+        sorted_views = @connection.views.sort
+      else
+        # set union, merge by joining arrays, removing dups
+        # this will float the view name sin view_creation_order to the top
+        # without requiring all the views to be specified
+        sorted_views = view_creation_order | @connection.views
+      end
+      sorted_views.each do |v|
         next if [ActiveRecord::Migrator.schema_migrations_table_name, ignore_views].flatten.any? do |ignored|
           case ignored
           when String then v == ignored
