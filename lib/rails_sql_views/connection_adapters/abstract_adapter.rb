@@ -11,10 +11,11 @@ module RailsSqlViews
       end
       
       def disable_referential_integrity_with_views_excluded(&block)
+        self.class.send(:alias_method, :original_tables_method, :tables)
         self.class.send(:alias_method, :tables, :base_tables)
         disable_referential_integrity_without_views_excluded(&block)
       ensure
-        self.class.send(:alias_method, :tables, :tables_with_views_included)
+        self.class.send(:alias_method, :tables, :original_tables_method)
       end
       
       def supports_view_columns_definition?
