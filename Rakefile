@@ -8,7 +8,9 @@ require 'rake/contrib/rubyforgepublisher'
 require File.join(File.dirname(__FILE__), 'lib/rails_sql_views', 'version')
 
 PKG_BUILD       = ENV['PKG_BUILD'] ? '.' + ENV['PKG_BUILD'] : ''
-PKG_NAME        = 'rails_sql_views'
+PKG_FORK        = ENV['PKG_FORK'] ? "#{ENV['PKG_FORK']}-" : ''
+
+PKG_NAME        = "#{PKG_FORK}rails_sql_views"
 PKG_VERSION     = RailsSqlViews::VERSION::STRING + PKG_BUILD
 PKG_FILE_NAME   = "#{PKG_NAME}-#{PKG_VERSION}"
 PKG_DESTINATION = ENV["PKG_DESTINATION"] || "../#{PKG_NAME}"
@@ -57,7 +59,7 @@ PKG_FILES = FileList[
 ] - [ 'test' ]
 
 spec = Gem::Specification.new do |s|
-  s.name = 'rails_sql_views'
+  s.name = PKG_NAME
   s.version = PKG_VERSION
   s.summary = "Adds SQL Views to Rails."
   s.description = <<-EOF
