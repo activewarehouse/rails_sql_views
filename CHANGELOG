@@ -20,3 +20,6 @@
 0.7.0
  * Updated dependency versions to get on ActiveRecord 2.x. May not be compatible with Rails versions less than 2.x.
  * Add nonview_tables support to *all* of the adapters (was missing from Postgres and SQLServer)
+
+0.7.1
+ * Strip the database name from the retrieved CREATE VIEW statements to support `rake db:test:prepare`, etc.
