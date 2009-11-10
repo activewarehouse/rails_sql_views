@@ -55,8 +55,7 @@ module RailsSqlViews
       
       private
       def convert_statement(s)
-        s.gsub!(/.* AS (select .*)/, '\1')
-        s.gsub!(/#{quote_table_name(ActiveRecord::Base.configurations[Rails.env]["database"])}\./, '')
+        s.gsub(/.* AS (select .*)/, '\1').gsub(/#{quote_table_name(ActiveRecord::Base.configurations[Rails.env]["database"])}\./, '')
       end
     end
   end
