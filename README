@@ -10,8 +10,7 @@ To install:
  
 Then add the following to your Rails config/environment.rb:
 
-  require_gem 'rails_sql_views'
-  require 'rails_sql_views'
+  config.gem 'rails_sql_views'
 
 == Usage
 
