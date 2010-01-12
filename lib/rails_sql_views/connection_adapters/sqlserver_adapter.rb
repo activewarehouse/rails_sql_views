@@ -5,11 +5,16 @@ module RailsSqlViews
       def supports_views?
         true
       end
+
+       def tables_with_views_included(name = nil)
+         select_values("SELECT table_name FROM information_schema.tables", name)
+       end
       
       # Get all of the non-view tables from the currently connected schema
       def base_tables(name = nil)
         # this is untested
         select_values("SELECT table_name FROM information_schema.tables", name)
+        tables - views
       end
       alias nonview_tables base_tables
       
