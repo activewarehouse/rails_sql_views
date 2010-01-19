@@ -12,6 +12,12 @@ module RailsSqlViews
         true
       end
       
+      def tables_with_views_included(name = nil)
+        tables = []
+        execute("SHOW FULL TABLES WHERE TABLE_TYPE='BASE TABLE' OR TABLE_TYPE = 'VIEW'").each{|row| tables << row[0] }
+        tables
+      end
+
       def base_tables(name = nil) #:nodoc:
         tables = []
         execute("SHOW FULL TABLES WHERE TABLE_TYPE='BASE TABLE'").each{|row| tables << row[0]}
