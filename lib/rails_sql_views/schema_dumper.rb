@@ -1,9 +1,9 @@
 module RailsSqlViews
   module SchemaDumper
     def self.included(base)
-      base.alias_method_chain :trailer, :views
-      base.alias_method_chain :dump, :views
-      base.alias_method_chain :tables, :views_excluded
+      base.alias_method_chain :trailer, :views unless method_defined?(:trailer_with_views)
+      base.alias_method_chain :dump, :views unless method_defined?(:dump_with_views)
+      base.alias_method_chain :tables, :views_excluded unless method_defined?(:tables_with_views_excluded)
       
       # A list of views which should not be dumped to the schema. 
       # Acceptable values are strings as well as regexp.
