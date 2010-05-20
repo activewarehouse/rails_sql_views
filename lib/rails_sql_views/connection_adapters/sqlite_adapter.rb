@@ -4,6 +4,10 @@ module RailsSqlViews
       def supports_views?
         true
       end
+
+      def supports_drop_table_cascade?
+        return false 
+      end
       
       def tables(name = nil) #:nodoc:
         sql = <<-SQL

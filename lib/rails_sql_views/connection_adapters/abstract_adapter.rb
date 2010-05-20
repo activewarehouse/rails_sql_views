@@ -9,6 +9,11 @@ module RailsSqlViews
       def supports_views?
         return false
       end
+
+      # Subclasses should override and return false if they don't support CASCADE
+      def supports_drop_table_cascade?
+        return true
+      end
       
       def disable_referential_integrity_with_views_excluded(&block)
         self.class.send(:alias_method, :original_tables_method, :tables)

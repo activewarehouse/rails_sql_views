@@ -59,7 +59,9 @@ module RailsSqlViews
       end
 
       def drop_table_with_cascade(table_name, options = {})
-        execute "DROP TABLE #{quote_table_name(table_name)} CASCADE"
+        cmd = "DROP TABLE #{quote_table_name(table_name)}"
+        cmd += " CASCADE" if supports_drop_table_cascade?
+        execute cmd
       end
       
       # Drop a view.
