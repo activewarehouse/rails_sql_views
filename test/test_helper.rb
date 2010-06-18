@@ -7,8 +7,8 @@ require 'pp'
 require 'flexmock/test_unit'
 
 require 'active_record'
-#$connection = (ENV['DB'] || 'native_mysql')
-$connection = (ENV['DB'] || 'native_postgresql')
+$connection = (ENV['DB'] || 'native_mysql')
+#$connection = (ENV['DB'] || 'native_postgresql')
 require "connection/#{$connection}/connection"
 require 'rails_sql_views'
 
