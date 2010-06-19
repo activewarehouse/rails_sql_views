@@ -23,9 +23,9 @@
 
 $:.unshift(File.dirname(__FILE__))
 
-require 'active_record'
+#require 'active_record'
 
-require 'core_ext/module'
+#require 'core_ext/module'
 
 require 'rails_sql_views/connection_adapters/abstract/schema_definitions'
 require 'rails_sql_views/connection_adapters/abstract/schema_statements'
