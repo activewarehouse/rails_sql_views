@@ -83,17 +83,6 @@ module RailsSqlViews
     def tables_with_views_excluded(stream)
       self.class.ignore_tables |= @connection.views
       tables_without_views_excluded(stream)
-#      @connection.base_tables.sort.each do |tbl|
-#        next if [ActiveRecord::Migrator.schema_migrations_table_name, ignore_tables].flatten.any? do |ignored|
-#          case ignored
-#          when String then tbl == ignored
-#          when Regexp then tbl =~ ignored
-#          else
-#            raise StandardError, 'ActiveRecord::SchemaDumper.ignore_tables accepts an array of String and / or Regexp values.'
-#          end
-#        end
-#        table(tbl, stream)
-#      end
     end
 
   end
