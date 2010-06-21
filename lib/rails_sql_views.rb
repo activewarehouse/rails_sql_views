@@ -29,7 +29,7 @@ require 'rails_sql_views/connection_adapters/abstract_adapter'
 require 'rails_sql_views/schema_dumper'
 require 'rails_sql_views/loader'
 
-# this on_load strategy cribbed from Matthu Higgins foreigner gem
+# this on_load strategy cribbed from Matthew Higgins foreigner gem
 # http://github.com/matthuhiggins/foreigner
 module RailsSqlViews
   def self.on_load(&block)
