@@ -33,15 +33,24 @@ require 'rails_sql_views/connection_adapters/abstract_adapter'
 require 'rails_sql_views/schema_dumper'
 require 'rails_sql_views/loader'
 
-ActiveRecord::ConnectionAdapters::AbstractAdapter.class_eval do
-  include RailsSqlViews::ConnectionAdapters::SchemaStatements
-  def self.inherited(sub)
-    RailsSqlViews::Loader.load_extensions
+ActiveSupport.on_load :active_record do
+  #foreigner does this...
+  #  unless ActiveRecord::Base.connected?
+  #    ActiveRecord::Base.configurations = Rails.application.config.database_configuration
+  #    ActiveRecord::Base.establish_connection
+  #  end
+
+  ActiveRecord::ConnectionAdapters::AbstractAdapter.class_eval do
+    include RailsSqlViews::ConnectionAdapters::SchemaStatements
+    def self.inherited(sub)
+      RailsSqlViews::Loader.load_extensions
+    end
   end
-end
 
-ActiveRecord::SchemaDumper.class_eval do
-  include RailsSqlViews::SchemaDumper
-end
+  ActiveRecord::SchemaDumper.class_eval do
+    include RailsSqlViews::SchemaDumper
+  end
 
-RailsSqlViews::Loader.load_extensions
+  RailsSqlViews::Loader.load_extensions
+
+end
