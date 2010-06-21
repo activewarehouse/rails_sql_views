@@ -23,22 +23,27 @@
 
 $:.unshift(File.dirname(__FILE__))
 
-#require 'active_record'
-
-#require 'core_ext/module'
-
 require 'rails_sql_views/connection_adapters/abstract/schema_definitions'
 require 'rails_sql_views/connection_adapters/abstract/schema_statements'
 require 'rails_sql_views/connection_adapters/abstract_adapter'
 require 'rails_sql_views/schema_dumper'
 require 'rails_sql_views/loader'
 
-ActiveSupport.on_load :active_record do
-  #foreigner does this...
-  #  unless ActiveRecord::Base.connected?
-  #    ActiveRecord::Base.configurations = Rails.application.config.database_configuration
-  #    ActiveRecord::Base.establish_connection
-  #  end
+# this on_load strategy cribbed from Matthu Higgins foreigner gem
+# http://github.com/matthuhiggins/foreigner
+module RailsSqlViews
+  def self.on_load(&block)
+    if defined?(Rails) && Rails.version >= '3.0'
+      ActiveSupport.on_load :active_record do
+        block.call
+      end
+    else
+      yield
+    end
+  end
+end
+
+RailsSqlViews.on_load do
 
   ActiveRecord::ConnectionAdapters::AbstractAdapter.class_eval do
     include RailsSqlViews::ConnectionAdapters::SchemaStatements
