@@ -23,6 +23,8 @@
 
 $:.unshift(File.dirname(__FILE__))
 
+require 'tsort'
+require 'rails_sql_views/thash'
 require 'rails_sql_views/connection_adapters/abstract/schema_definitions'
 require 'rails_sql_views/connection_adapters/abstract/schema_statements'
 require 'rails_sql_views/connection_adapters/abstract_adapter'

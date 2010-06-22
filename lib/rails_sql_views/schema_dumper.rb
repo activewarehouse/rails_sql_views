@@ -36,7 +36,7 @@ module RailsSqlViews
     
     # Add views to the stream
     def views(stream)
-      @connection.views.sort.each do |v|
+      @connection.sorted_views.each do |v|
         next if [ActiveRecord::Migrator.schema_migrations_table_name, ignore_views].flatten.any? do |ignored|
           case ignored
           when String then v == ignored
