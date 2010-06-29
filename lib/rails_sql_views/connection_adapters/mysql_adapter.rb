@@ -24,6 +24,10 @@ module RailsSqlViews
         execute("SHOW FULL TABLES WHERE TABLE_TYPE='VIEW'").each{|row| views << row[0]}
         views
       end
+
+      def tables_with_views_included(name = nil)
+        nonview_tables(name) + views(name)
+      end
       
       def structure_dump
         structure = ""
