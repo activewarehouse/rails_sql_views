@@ -1,8 +1,12 @@
-adapter: postgresql
-username: postgres
-password: 
-host: localhost
-database: rails_sql_views_unittest
-encoding: utf8
-schema_file: schema.sql
-
+postgresql:
+  username: postgres
+  password: 
+  host: localhost
+  database: rails_sql_views_unittest
+  encoding: utf8
+  schema_file: schema.sql
+mysql:
+  username: root
+  host: localhost
+  database: rails_sql_views_unittest
+  schema_file: schema.sql
