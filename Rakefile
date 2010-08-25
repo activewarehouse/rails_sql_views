@@ -3,7 +3,6 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 require 'rake/packagetask'
 require 'rake/gempackagetask'
-require 'rake/contrib/rubyforgepublisher'
 
 require File.join(File.dirname(__FILE__), 'lib/rails_sql_views', 'version')
 
@@ -48,97 +47,28 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-PKG_FILES = FileList[
-  'CHANGELOG',
-  'README',
-  'Rakefile',
-  'bin/**/*',
-  'lib/**/*',
-] - [ 'test' ]
-
-spec = Gem::Specification.new do |s|
-  s.name = 'rails_sql_views'
-  s.version = PKG_VERSION
-  s.summary = "Adds SQL Views to Rails."
-  s.description = <<-EOF
-    Library which adds SQL Views to Rails.
-  EOF
-
-  s.add_dependency('activerecord', '>= 2.1.0')
-  s.add_dependency('rake', '>= 0.8.3')
-
-  s.rdoc_options << '--exclude' << '.'
-  s.has_rdoc = false
-
-  s.files = PKG_FILES.to_a.delete_if {|f| f.include?('.svn')}
-  s.require_path = 'lib'
-
-  s.author = "Anthony Eden"
-  s.email = "anthonyeden@gmail.com"
-  s.homepage = "http://activewarehouse.rubyforge.org/rails_sql_views"
-  s.rubyforge_project = "activewarehouse"
-end
-
-Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.gem_spec = spec
-  pkg.need_tar = true
-  pkg.need_zip = true
-end
-
-desc "Generate code statistics"
-task :lines do
-  lines, codelines, total_lines, total_codelines = 0, 0, 0, 0
-
-  for file_name in FileList["lib/**/*.rb"]
-    next if file_name =~ /vendor/
-    f = File.open(file_name)
-
-    while line = f.gets
-      lines += 1
-      next if line =~ /^\s*$/
-      next if line =~ /^\s*#/
-      codelines += 1
-    end
-    puts "L: #{sprintf("%4d", lines)}, LOC #{sprintf("%4d", codelines)} | #{file_name}"
-    
-    total_lines     += lines
-    total_codelines += codelines
-    
-    lines, codelines = 0, 0
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |s|
+    s.name = "rails_sql_views"
+    s.summary = "Library which adds SQL Views to ActiveRecord."
+    s.email = "josh@technicalpickles.com"
+    s.homepage = "http://activewarehouse.rubyforge.org/rails_sql_views"
+    s.description = "Adds support for using SQL views within ActiveRecord"
+    s.authors = ["Anthony Eden"]
+    s.files =  FileList[
+      "CHANGELOG", 
+      "README",
+      "Rakefile",
+      "{bin,lib}/**/*"
+    ]
+    s.add_dependency 'activerecord'
   end
-
-  puts "Total: Lines #{total_lines}, LOC #{total_codelines}"
-end
-
-desc "Publish the release files to RubyForge."
-task :release => [ :package ] do
-  `rubyforge login`
-
-  for ext in %w( gem tgz zip )
-    release_command = "rubyforge add_release activewarehouse #{PKG_NAME} 'REL #{PKG_VERSION}' pkg/#{PKG_NAME}-#{PKG_VERSION}.#{ext}"
-    puts release_command
-    system(release_command)
-  end
+rescue LoadError
+  puts "Jeweler, or one of its dependencies, is not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
 end
 
 desc "Publish the API documentation"
 task :pdoc => [:rdoc] do 
   Rake::SshDirPublisher.new("aeden@rubyforge.org", "/var/www/gforge-projects/activewarehouse/rails_sql_views/rdoc", "rdoc").upload
-end
-
-desc "Install the gem from a local generated package"
-task :install => [:package] do
-  windows = RUBY_PLATFORM =~ /mswin/
-  sudo = windows ? '' : 'sudo'
-  gem = windows ? 'gem.bat' : 'gem'
-  `#{sudo} #{gem} install pkg/#{PKG_NAME}-#{PKG_VERSION}`
-end
-
-desc "Reinstall the gem from a local package copy"
-task :reinstall => [:package] do
-  windows = RUBY_PLATFORM =~ /mswin/
-  sudo = windows ? '' : 'sudo'
-  gem = windows ? 'gem.bat' : 'gem'
-  `#{sudo} #{gem} uninstall #{PKG_NAME} -x`
-  `#{sudo} #{gem} install pkg/#{PKG_NAME}-#{PKG_VERSION}`
 end
