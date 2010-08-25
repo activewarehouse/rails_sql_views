@@ -1,5 +1,10 @@
 == Executing Tests
 
+First create the test database: rails_sql_views_unittest 
+
+Next, copy test/connection.example.yml to test/connection.yml and change the
+settings to match your database configuration that you are testing.
+
 To run the tests either use:
 
   rake
@@ -21,15 +26,19 @@ The Oracle and SQL Server adapters have not been tested by me.
 
 == Implementing Adapters
 
-If you would like to implement an adapter, it should go in lib/rails_sql_views/connection_adapters. Follow the conventions
-of the other adapters currently implemented. Every adapter must implement the following methods:
+If you would like to implement an adapter, it should go in 
+lib/rails_sql_views/connection_adapters. Follow the conventions
+of the other adapters currently implemented. Every adapter must implement the 
+following methods:
 
   supports_views?
   base_tables(name = nil)
   views(name = nil)
   view_select_statement(view, name=nil)
   
-The suports_views? method must return true. The views method must return an array of all view names. The view_select_statement method must return the select statement used to construct the specified view.
+The suports_views? method must return true. The views method must return an 
+array of all view names. The view_select_statement method must return the 
+select statement used to construct the specified view.
 
 In addition you must include the following for testing purposes:
 
@@ -41,11 +50,13 @@ The schema to setup the test database in your drivers native form:
 
   test/connection/driver_name/schema.sql
   
-The expected schema output from a schema dump. Note that it must be formatted *exactly* as the output would be:
+The expected schema output from a schema dump. Note that it must be formatted 
+*exactly* as the output would be:
   
   test/schema.driver_name.out.rb
   
-Once this is done you should send the diff of the changes to anthonyeden@gmail.com. Any questions can also be emailed to this address.
+Once this is done you should send the diff of the changes to 
+anthonyeden@gmail.com. Any questions can also be emailed to this address.
 
 == Known Issues
 
