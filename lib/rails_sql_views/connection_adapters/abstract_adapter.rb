@@ -2,7 +2,8 @@ module RailsSqlViews
   module ConnectionAdapters
     module AbstractAdapter
       def self.included(base)
-        base.alias_method_chain :disable_referential_integrity, :views_excluded
+        base.alias_method_chain :disable_referential_integrity, :views_excluded \
+          unless base.method_defined? :disable_referential_integrity_with_views_excluded
       end
 
       # Subclasses should override and return true if they support views.
