@@ -26,7 +26,7 @@ module RailsSqlViews
     def dump_with_views(stream)
       dump_without_views(stream)
       begin
-        if @connection.supports_views?
+        if @connection.send(:supports_views?)
           views(stream)
         end
       rescue => e
