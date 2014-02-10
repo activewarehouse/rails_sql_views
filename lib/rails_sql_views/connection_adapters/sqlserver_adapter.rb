@@ -36,7 +36,7 @@ module RailsSqlViews
       
       private
       def convert_statement(s)
-        s.sub(/^CREATE.* AS (select .*)/i, '\1').gsub(/\n/, '')
+        s.gsub(/\n/, ' ').sub(/.*CREATE VIEW.* AS.* (SELECT .*)/i, '\1')
       end
     end
   end
