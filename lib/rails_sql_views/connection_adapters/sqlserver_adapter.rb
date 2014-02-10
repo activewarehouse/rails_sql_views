@@ -21,8 +21,14 @@ module RailsSqlViews
       # Get the view select statement for the specified view.
       def view_select_statement(view, name=nil)
         q =<<-ENDSQL
-          SELECT view_definition FROM information_schema.views
-          WHERE table_name = '#{view}'
+          SELECT
+              SM.definition
+          FROM
+              sys.objects O
+              JOIN
+              sys.sql_modules SM ON o.object_id = SM.object_id
+          WHERE
+              o.type = 'V' AND o.name = '#{view}'
         ENDSQL
         
         view_def = select_value(q, name)
