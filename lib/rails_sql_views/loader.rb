@@ -1,7 +1,7 @@
 
 module RailsSqlViews
   module Loader
-    SUPPORTED_ADAPTERS = %w( Mysql PostgreSQL SQLServer SQLite OracleEnhanced )
+    SUPPORTED_ADAPTERS = %w( Mysql Mysql2 PostgreSQL SQLServer SQLite OracleEnhanced )
 
     def self.load_extensions
       SUPPORTED_ADAPTERS.each do |db|
