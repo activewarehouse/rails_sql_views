@@ -12,10 +12,24 @@ module RailsSqlViews
         true
       end
       
-      def base_tables(name = nil) #:nodoc:
-        tables = []
-        execute("SHOW FULL TABLES WHERE TABLE_TYPE='BASE TABLE'").each{|row| tables << row[0]}
-        tables
+      def base_tables(name = nil, database = nil, like = nil) #:nodoc:
+        sql = "SHOW FULL TABLES "
+        sql << "IN #{quote_table_name(database)} " if database
+        
+        if database && like
+          sql << "WHERE TABLE_TYPE='BASE TABLE' "
+          c = "TABLES_IN_#{database.upcase}"
+          sql << "AND #{quote_table_name(c)} LIKE #{quote(like)}"
+        elsif like
+          sql << "LIKE #{quote(like)}"
+        else
+          sql << "WHERE TABLE_TYPE='BASE TABLE' "
+        end
+
+        execute_and_free(sql, 'SCHEMA') do |result|
+          result = result.select {|field| field.last == 'BASE TABLE' } unless database
+          result.collect { |field| field.first }
+        end
       end
       alias nonview_tables base_tables
       
