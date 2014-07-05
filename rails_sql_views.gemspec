@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
      "lib/rails_sql_views/connection_adapters/abstract/schema_statements.rb",
      "lib/rails_sql_views/connection_adapters/abstract_adapter.rb",
      "lib/rails_sql_views/connection_adapters/mysql_adapter.rb",
+     "lib/rails_sql_views/connection_adapters/mysql2_adapter.rb",
      "lib/rails_sql_views/connection_adapters/oci_adapter.rb",
      "lib/rails_sql_views/connection_adapters/oracle_adapter.rb",
      "lib/rails_sql_views/connection_adapters/oracleenhanced_adapter.rb",
